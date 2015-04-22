@@ -161,6 +161,7 @@ public class Calculette extends Application {
 		plus.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
+				redemarrerTimer();
 				if (nbclics == 1) {
 					nbclics++;
 					addition = true;
@@ -175,6 +176,7 @@ public class Calculette extends Application {
 		moins.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
+				redemarrerTimer();
 				if (nbclics == 1) {
 					nbclics++;
 					addition = false;
@@ -189,6 +191,7 @@ public class Calculette extends Application {
 		egal.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
+				redemarrerTimer();
 				if (nbclics == 3) {
 					if (addition == true) {
 						resultat = premierChiffre + secondChiffre;
@@ -220,6 +223,14 @@ public class Calculette extends Application {
 		primaryStage.setResizable(false);
 		// On affiche la fenetre
 		primaryStage.show();
+		
+		timer = new Timer();
+		timer.schedule(new TimerTask() {
+			@Override
+			public void run() {
+				System.exit(0);
+			}
+		}, 60*1000);
 	}
 
 
@@ -229,9 +240,21 @@ public class Calculette extends Application {
 		result.setText("Coucou tu peux recommencer");
 	}
 
+	public void redemarrerTimer() {
+		timer.cancel();
+		timer = new Timer();
+		timer.schedule(new TimerTask() {
+			@Override
+			public void run() {
+				System.exit(0);
+			}
+		}, 60 * 1000);
+	}
+
 	class Gestionnaire implements EventHandler<MouseEvent> {
 		@Override
 		public void handle(MouseEvent event) {
+			redemarrerTimer();
 			Button boutonclique = (Button) event.getSource();
 			String texteBouton = boutonclique.getText();
 			System.out.println("Vous avez cliqué :" + texteBouton);
